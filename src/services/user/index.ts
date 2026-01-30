@@ -29,5 +29,9 @@ export const userService = {
 
   list(): User[] {
     return users;
+  },
+
+  _resetForTests(): void {
+    users.length = 0
   }
 }

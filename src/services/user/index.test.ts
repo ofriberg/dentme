@@ -1,8 +1,13 @@
 import { userService } from "@/services/user";
 import { HttpError } from "@/utils/errors";
-import { describe, expect, it } from "vitest";
+
+import { beforeEach, describe, expect, it } from "vitest";
 
 describe('userService', () => {
+  beforeEach(() => {
+    userService._resetForTests();
+  });
+
   it("creates a user", () => {
     const user = userService.create({
       firstName: "Anders",
@@ -30,9 +35,11 @@ describe('userService', () => {
     }).toThrowError(HttpError);
 
     try {
-      userService.create({ firstName: "C", lastName: "D", email: "D@test.com" });
+      userService.create({ firstName: "C", lastName: "D", email: "anders@andersson.se" });
+      throw new Error("Expected a HttpError, but wasnt thrown");
     }
     catch (err) {
+      expect(err).toBeInstanceOf(HttpError);
       const error = err as HttpError;
       expect(error.status).toBe(409);
       expect(error.translationCode).toBe("EMAIL_EXISTS");
