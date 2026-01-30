@@ -21,6 +21,7 @@ const userSchema = z.object({
 
 type AsyncRoute = (req: Request, res: Response, next: NextFunction) => Promise<unknown>;
 
+// async handler, in order to make the errorMiddleware work to be able to catch all errors so that we have one separate place for handling them
 const asyncHandler = (fn: AsyncRoute) => (req: Request, res: Response, next: NextFunction) =>
   Promise.resolve(fn(req, res, next)).catch(next);
 

@@ -12,6 +12,9 @@ export class HttpError extends Error {
   }
 }
 
+// middleware for handling errors in one place, 
+// when some error is thrown somewhere in the app
+
 export const errorMiddleWare = (
   err: unknown,
   _req: Request,

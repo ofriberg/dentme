@@ -5,6 +5,8 @@ import { HttpError } from "@/utils/errors";
 
 const users: User[] = [];
 
+/* a service to make it easiser for handling of users (all functions in one place) */
+
 export const userService = {
 
   create(payload: Omit<User, "id">): User {
