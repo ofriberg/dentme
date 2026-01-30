@@ -17,5 +17,8 @@
 
 - `yarn lint`
 
+## The rest
+
+- Hopefully pretty straight forward, but comments are in the code as well
 
 
