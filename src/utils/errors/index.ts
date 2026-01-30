@@ -1,4 +1,4 @@
-import type { NextFunction, Request, Response } from "express";
+import type { Request, Response } from "express";
 import { z } from "zod";
 
 export class HttpError extends Error {
@@ -15,8 +15,8 @@ export class HttpError extends Error {
 export const errorMiddleWare = (
   err: unknown,
   _req: Request,
-  res: Response,
-  _next: NextFunction) => {
+  res: Response
+) => {
 
   if (err instanceof z.ZodError) {
     return res.status(400).json({

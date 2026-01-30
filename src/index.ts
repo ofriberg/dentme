@@ -18,7 +18,7 @@ const userSchema = z.object({
   abd to check it: emailRegex.test("someEmail@email.com") */
 });
 
-type AsyncRoute = (req: Request, res: Response, next: NextFunction) => Promise<any>;
+type AsyncRoute = (req: Request, res: Response, next: NextFunction) => Promise<unknown>;
 
 const asyncHandler = (fn: AsyncRoute) =>
   (req: Request, res: Response, next: NextFunction) =>
