@@ -1,4 +1,5 @@
 import { userService } from "@/services";
+import { errorMiddleWare } from "@/utils/errors";
 import { getParam } from "@/utils/url";
 import type { NextFunction, Request, Response } from "express";
 import express from "express";
@@ -20,9 +21,15 @@ const userSchema = z.object({
 
 type AsyncRoute = (req: Request, res: Response, next: NextFunction) => Promise<unknown>;
 
-const asyncHandler = (fn: AsyncRoute) =>
-  (req: Request, res: Response, next: NextFunction) =>
-    fn(req, res, next).catch(next)
+const asyncHandler = (fn: AsyncRoute) => (req: Request, res: Response, next: NextFunction) =>
+  Promise.resolve(fn(req, res, next)).catch(next);
+
+app.get(
+  "/users",
+  asyncHandler(async (_req, res) => {
+    res.json(userService.list());
+  })
+);
 
 app.post(
   "/users",
@@ -31,20 +38,20 @@ app.post(
     const user = userService.create(body);
     res.status(201).json(user);
   })
-)
+);
 
 app.delete<{ id: string }>(
-  "user/:id",
+  "/user/:id",
   asyncHandler(async (req, res) => {
     const id = getParam(req.params.id);
     userService.deleteById(id);
     res.sendStatus(204);
   })
-)
-
-app.get(
-  "/users",
-  asyncHandler(async (_req, res) => {
-    res.json(userService.list());
-  })
 );
+
+app.use(errorMiddleWare);
+
+const PORT = Number(process.env.PORT || 3000);
+app.listen(PORT, () => {
+  console.log(`Server running on http://localhost:${PORT}`);
+});

@@ -1,7 +1,7 @@
 {
   "name": "dentme",
   "version": "1.0.0",
-  "main": "index.js",
+  "type": "module",
   "author": "Oscar Friberg <oscfriberg@gmail.com>",
   "license": "MIT",
   "scripts": {

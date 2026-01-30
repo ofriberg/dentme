@@ -7,12 +7,12 @@ const users: User[] = [];
 
 export const userService = {
 
-  create(data: Omit<User, "id">): User {
-    if (users.some((u) => u.email === data.email)) {
+  create(payload: Omit<User, "id">): User {
+    if (users.some((u) => u.email === payload.email)) {
       throw new HttpError(409, "Email already exists", "EMAIL_EXISTS")
     }
 
-    const user = { id: uuidv4(), ...data };
+    const user = { id: uuidv4(), ...payload };
     users.push(user);
     return user;
   },
